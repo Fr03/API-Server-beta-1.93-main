@@ -4,10 +4,11 @@
 // Author : Nicolas Chourot
 // Lionel-Groulx College
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+import HttpContext from "./httpContext.js";
 
 export default class Response {//Modifié selon prof sur colnet Revenir
     constructor(res) {
-        //this.res = res;
+        this.res = res;
         //this.errorContent = "";
         this.HttpContext = HttpContext;
         this.res = HttpContext.res;
