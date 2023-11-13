@@ -12,6 +12,7 @@ export default class MiddlewaresPipeline {
     }
     add(middleware) {
         this.middlewares.push(middleware);
+        CachedRequestManager.get()
     }
     handleHttpRequest(HttpContext) {
         for (let middleware of this.middlewares) {

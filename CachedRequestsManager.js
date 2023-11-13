@@ -43,12 +43,15 @@ export default class CachedRequestsManager {
         /* efface la cache associée à l’url */
 
         // Dans la méthode de CachedRequest.clear(url), cherchez les caches qui contiennent l'url plutôt celles qui sont égales:
-
-        for (let endpoint of CachedRequests) {
-            // target all entries related to the same APIendpoint url base
-            if (endpoint.url.toLowerCase().indexOf(url.toLowerCase()) > -1)
-                indexToDelete.push(index);
-            index++;
+        if (url != "") {
+            let indexToDelete = [];
+            let index = 0;
+            for (let endpoint of urlCaches) {
+                // target all entries related to the same APIendpoint url base
+                if (endpoint.url.toLowerCase().indexOf(url.toLowerCase()) > -1)
+                    indexToDelete.push(index);
+                index++;
+            }
         }
 
 
@@ -72,11 +75,11 @@ export default class CachedRequestsManager {
          Chercher la cache correspondant à l'url de la requête. Si trouvé,
          Envoyer la réponse avec
          HttpContext.response.JSON( paylod, ETag, false /* from cache) // ajouter dans la cache si la requête est de type API et que le id est non défini.
-         */
-        if(HttpContext.urlCaches.url != ""){
-
+         */   //Ne comprends pas le from cache
+        if (HttpContext.urlCaches.url != "") {
+            HttpContext.response.JSON(urlCaches.content, urlCaches.ETag);
         }
     }
-
-
 }
+setInterval(CachedRequestsManager.flushExpired, urlCachesExpirationTime * 1000);
+log(BgWhite, FgBlack, "Periodic url caches cleaning process started...");
